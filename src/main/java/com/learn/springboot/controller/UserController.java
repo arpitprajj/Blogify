@@ -4,6 +4,7 @@ package com.learn.springboot.controller;
 import com.learn.springboot.payloads.ApiResponse;
 import com.learn.springboot.payloads.userDto;
 import com.learn.springboot.services.userservice;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class UserController {
     private userservice userService;
 
     @PostMapping("/")
-    public ResponseEntity<userDto>createUser(@RequestBody userDto userdto){
+    public ResponseEntity<userDto>createUser(@Valid @RequestBody userDto userdto){
      userDto createUserDto=this.userService.createuser(userdto);
      return new ResponseEntity<>(createUserDto, HttpStatus.CREATED);
     }
@@ -30,7 +31,7 @@ public class UserController {
     //post- create user
     //put - update user
     @PutMapping("/{userId}")
-    public ResponseEntity<userDto>updateUser(@RequestBody userDto userdto,@PathVariable("userId") Integer uid){
+    public ResponseEntity<userDto>updateUser(@Valid @RequestBody userDto userdto,@PathVariable("userId") Integer uid){
         userDto updatedUser=this.userService.updateuser(userdto,uid);
     return ResponseEntity.ok(updatedUser);
     }

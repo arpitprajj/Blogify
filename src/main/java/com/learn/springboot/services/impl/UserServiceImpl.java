@@ -5,6 +5,7 @@ import com.learn.springboot.exceptions.*;
 import com.learn.springboot.payloads.userDto;
 import com.learn.springboot.repositories.UserRepo;
 import com.learn.springboot.services.userservice;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements userservice {
    @Autowired
    private UserRepo userRepo;
+
+   @Autowired
+   private ModelMapper modelMapper;
 
     @Override
     public userDto createuser(userDto userdto) {
@@ -58,21 +62,22 @@ public class UserServiceImpl implements userservice {
        this.userRepo.delete((userr));
     }
     private user dtoToUser(userDto userdto){
-        user userr=new user();
-        userr.setId(userdto.getId());
-        userr.setName(userdto.getName());
-        userr.setEmail(userdto.getEmail());
-        userr.setPassword(userdto.getPassword());
-        userr.setAbout(userdto.getAbout());
+        //user userr=new user();
+//        userr.setId(userdto.getId());
+//        userr.setName(userdto.getName());
+//        userr.setEmail(userdto.getEmail());
+//        userr.setPassword(userdto.getPassword());
+//        userr.setAbout(userdto.getAbout());
+        user userr=this.modelMapper.map(userdto,user.class);
         return userr;
     }
     public userDto userToDto(user userr){
-        userDto userdto=new userDto();
-        userdto.setId(userr.getId());
-        userdto.setName(userr.getName());
-        userdto.setPassword(userr.getPassword());
-        userdto.setEmail(userr.getEmail());
-        userdto.setAbout(userr.getAbout());
+        userDto userdto=this.modelMapper.map(userr,userDto.class);
+//        userdto.setId(userr.getId());
+//        userdto.setName(userr.getName());
+//        userdto.setPassword(userr.getPassword());
+//        userdto.setEmail(userr.getEmail());
+//        userdto.setAbout(userr.getAbout());
         return userdto;
     }
 }
